@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PowerFit - Exercise Library</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Base styles from previous code */
+    :root {
+      --primary-color: #00ff88;
+      --secondary-color: #00cc66;
+      --background-color: #1a1a1a;
+      --card-background: #2d2d2d;
+      --text-color: #ffffff;
+      --section-spacing: 4rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Enhanced Navigation */
+    .navbar {
+      background-color: rgba(34, 34, 34, 0.95);
+      padding: 1rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .auth-button {
+    background: var(--primary-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+  }
+
+  .modal-content {
+    background: var(--card-background);
+    margin: 5% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+  }
+
+    .logo {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary-color);
+    }
+
+    .hamburger {
+      display: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b') center/cover;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    /* Exercise Grid */
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+
+    .exercise-card {
+      background: var(--card-background);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .exercise-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .exercise-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .exercise-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .exercise-info {
+      padding: 1.5rem;
+    }
+
+    .exercise-info h3 {
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .exercise-info p {
+      color: #cccccc;
+      font-size: 0.9rem;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--primary-color);
+      color: var(--background-color);
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      background-color: var(--secondary-color);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 4rem;
+        right: -100%;
+        flex-direction: column;
+        background: var(--card-background);
+        width: 100%;
+        max-width: 250px;
+        padding: 1rem;
+        transition: right 0.3s;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Additions to existing styles */
+    .category-header {
+      text-align: center;
+      margin: 4rem 0 2rem;
+      position: relative;
+    }
+
+    .category-header h2 {
+      font-size: 2.5rem;
+      display: inline-block;
+      padding: 0 2rem;
+      background: var(--background-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .exercise-card {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .exercise-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--primary-color);
+      color: var(--background-color);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .exercise-meta {
+      display: flex;
+      gap: 1rem;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+      color: var(--primary-color);
+    }
+
+    .exercise-difficulty {
+      display: flex;
+      gap: 0.25rem;
+      color: #ffd700;
+      margin-top: 1rem;
+    }
+
+    /* New Features */
+    .floating-fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--primary-color);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    .warmup-banner {
+      background: var(--primary-color);
+      color: var(--background-color);
+      padding: 1rem;
+      text-align: center;
+      margin: 1rem 5%;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .exercise-card:hover .exercise-info {
+      background: linear-gradient(transparent, rgba(0, 255, 136, 0.1));
+    }
+
+    .equipment-tag {
+      display: inline-block;
+      color: var(--text-color);
+      padding: 0.25rem 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin: 0.25rem 0;
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="#" class="logo">PowerFit</a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="exercices.html">Exercises</a></li>
+        <li><a href="conseils.html">Programs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <button id="loginBtn" class="auth-button">Login</button>
+        <button id="signupBtn" class="auth-button">Sign Up</button>
+      </div>
+      
+      <div id="authModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <form id="authForm">
+            <h2>Welcome to PowerFit</h2>
+            <div id="formSwitch">
+              <span class="switch-active">Sign Up</span>
+              <span>Login</span>
+            </div>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" class="cta-button">Get Started</button>
+          </form>
+        </div>
+      </div>
+      <i class="hamburger fas fa-bars"></i>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Warm-up Banner -->
+    <div class="warmup-banner">
+      <i class="fas fa-fire"></i>
+      <span>Always start with 10 minutes of warm-up exercises!</span>
+    </div>
+
+    <!-- Upper Body Section -->
+    <section class="exercise-section">
+      <div class="category-header">
+        <h2>Upper Body Exercises</h2>
+      </div>
+
+      <div class="exercise-grid">
+        <a href="ExerciseDetails.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Barbell</span>
+          <img src="https://t3.ftcdn.net/jpg/00/78/42/64/360_F_78426476_1b0noG1El961AbjaQ0n0p9hVBaqZ69fy.jpg" alt="Bench Press">
+          <div class="exercise-info">
+            <h3>Bench Press</h3>
+            <div class="equipment-tag">Flat Bench</div>
+            <p class="exercise-description">Develop chest strength with this fundamental push exercise</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-5 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- More Upper Body Cards -->
+        <a href="exercise-detail.html?id=lat-pulldown" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Machine</span>
+          <img src="https://www.shutterstock.com/image-photo/bodybuilder-gym-muscular-man-working-600nw-2341653227.jpg" alt="Lat Pulldown">
+          <div class="exercise-info">
+            <h3>Lat Pulldown</h3>
+            <div class="equipment-tag">Cable Machine</div>
+            <p class="exercise-description">Target your lats for that V-taper look</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 4 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Beginner</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Lower Body Section -->
+    <section class="exercise-section">
+      <div class="category-header">
+        <h2>Lower Body Exercises</h2>
+      </div>
+
+      <div class="exercise-grid">
+        <a href="exercise-detail.html?id=squats" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Barbell</span>
+          <img src="https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2019/03/1109-squat2.jpg?quality=86&strip=all" alt="Barbell Squats">
+          <div class="exercise-info">
+            <h3>Barbell Squats</h3>
+            <div class="equipment-tag">Squat Rack</div>
+            <p class="exercise-description">The king of lower body exercises</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 4-5 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Advanced</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- More Lower Body Cards -->
+      </div>
+    </section>
+
+    <!-- Floating Action Button -->
+    <div class="floating-fab" id="programBuilderFab">
+      <i class="fas fa-plus"></i>
+    </div>
+  </main>
+
+  <script>
+    // Enhanced Interactions
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hover effect for exercise cards
+      document.querySelectorAll('.exercise-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'none';
+        });
+      });
+
+      // Program Builder FAB
+      document.getElementById('programBuilderFab').addEventListener('click', () => {
+        window.location.href = 'program-builder.html';
+      });
+
+      // Warm-up reminder localStorage
+      if(!localStorage.getItem('warmupDismissed')) {
+        document.querySelector('.warmup-banner').style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>
