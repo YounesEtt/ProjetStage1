@@ -354,158 +354,13 @@
       background: rgba(255,255,255,0.1);
     }
     
-    .preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--background-color);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.5s;
-    }
     
-    .loader {
-      width: 48px;
-      height: 48px;
-      border: 3px solid var(--primary-color);
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .preloader {
-      background: var(--background-color);
-    }
-
-    .stats-container {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      margin: 2rem 0;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: 1s;
-    }
-
-    .stats-container.animate {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .stat-card {
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      min-width: 180px;
-    }
-
-    .testimonial-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 0 5%;
-    }
-
-    .testimonial-card {
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: 1s;
-    }
-
-    .testimonial-card.animate {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .testimonial-card img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin-bottom: 1rem;
-    }
-
-    .challenge-banner {
-      background: var(--card-background);
-      color: var(--primary-color);
-      margin: 4rem 5%;
-      padding: 2rem;
-      border-radius: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .challenge-text {
-      color: var(--text-color);
-    }
-
-    .progress-circle {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: conic-gradient(var(--primary-color) 35%, transparent 0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      padding: 0 5%;
-    }
-
-    .blog-card {
-      background: var(--card-background);
-      border-radius: 15px;
-      overflow: hidden;
-      transition: transform 0.3s;
-    }
-
-    .blog-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .blog-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .blog-content {
-      padding: 1.5rem;
-    }
-
-    .rating {
-      color: #ffd700;
-    }
   </style>
 </head>
 <body>
-
-  <div class="preloader">
-    <div class="loader"></div>
-  </div>
-
   <header>
     <nav class="navbar">
-      <a href="index.html" class="logo">
-        <span style="display: inline-block; animation: pulse 2s infinite">PowerFit</span>
-      </a>
+      <a href="index.html" class="logo">PowerFit</a>
       <ul class="nav-links">
         <li><a href="index.html" class="active">Home</a></li>
         <li class="dropdown">
@@ -566,38 +421,7 @@
           </div>
         </a>
       </div>
-      <div class="stats-container">
-        <div class="stat-card">
-          <h3 data-count="5000">0</h3>
-          <p>Active Members</p>
-        </div>
-        <div class="stat-card">
-          <h3 data-count="250">0</h3>
-          <p>Workout Programs</p>
-        </div>
-        <div class="stat-card">
-          <h3 data-count="100000">0</h3>
-          <p>Workouts Completed</p>
-        </div>
-      </div>
-
-      <div class="exercise-grid">
-        <a href="gym.html" class="exercise-card floating">
-          <!-- ... card content ... -->
-        </a>
-        <a href="calisthenics.html" class="exercise-card floating">
-          <!-- ... card content ... -->
-        </a>
-      </div>
     </section>
-
-    <!-- Progress Tracker Section -->
-    <div class="progress-tracker">
-      <h3>Your Weekly Progress</h3>
-      <div class="progress-bar">
-        <!-- Add progress bar implementation -->
-      </div>
-    </div>
 
     <!-- New Features Section -->
     <section class="features">
@@ -623,49 +447,13 @@
       </div>
     </section>
 
-    <section class="testimonials">
-      <div class="section-header">
-        <h2>Success Stories</h2>
-      </div>
-      <div class="testimonial-grid">
-        <div class="testimonial-card">
-          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User">
-          <h4>John D.</h4>
-          <p>"Lost 20kg in 3 months with PowerFit programs!"</p>
-          <div class="rating">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-        </div>
-        <!-- Add more testimonials -->
-      </div>
-    </section>
-
-    <div class="challenge-banner">
-      <div class="challenge-content">
-        <h3 class="challenge-text">Weekly Challenge: 100 Pushups!</h3>
-        <div class="progress-circle" data-progress="35">
-          <span class="challenge-text">35%</span>
-        </div>
-        <button class="cta-button">Join Challenge</button>
+    <!-- Progress Tracker Section -->
+    <div class="progress-tracker">
+      <h3>Your Weekly Progress</h3>
+      <div class="progress-bar">
+        <!-- Add progress bar implementation -->
       </div>
     </div>
-
-    <section class="blog-preview">
-      <div class="section-header">
-        <h2>Fitness Tips</h2>
-      </div>
-      <div class="blog-grid">
-        <article class="blog-card">
-          <img src="https://images.unsplash.com/photo-1596357395217-80de13130e92" alt="Nutrition">
-          <div class="blog-content">
-            <h3>5 Nutrition Myths Busted</h3>
-            <p>Discover the truth about popular diet trends...</p>
-            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-        <!-- Add more blog posts -->
-      </div>
-    </section>
   </main>
 
   <script>
@@ -761,64 +549,6 @@
       handleAuth(isLogin);
       modal.style.display = 'none';
     });
-    // Preloader
-    window.addEventListener('load', () => {
-      document.querySelector('.preloader').style.opacity = '0';
-      setTimeout(() => {
-        document.querySelector('.preloader').style.display = 'none';
-      }, 500);
-    });
-
-    // Animated stats counter
-    const counters = document.querySelectorAll('[data-count]');
-    const speed = 200;
-
-    const animateCounters = () => {
-      counters.forEach(counter => {
-        const updateCount = () => {
-          const target = +counter.getAttribute('data-count');
-          const count = +counter.innerText;
-          const increment = target / speed;
-          
-          if(count < target) {
-            counter.innerText = Math.ceil(count + increment);
-            setTimeout(updateCount, 10);
-          } else {
-            counter.innerText = target + '+';
-          }
-        }
-        updateCount();
-      });
-    }
-
-    // Typewriter effect
-    const typewriterText = "Transform Your Body, Boost Your Confidence";
-    let i = 0;
-    function typeWriter() {
-      if (i < typewriterText.length) {
-        document.getElementById("typewriter").innerHTML += typewriterText.charAt(i);
-        i++;
-        setTimeout(typeWriter, 50);
-      }
-    }
-
-    // Intersection Observer for animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.classList.add('animate');
-          if(entry.target.classList.contains('stats-container')) {
-            animateCounters();
-          }
-        }
-      });
-    });
-
-    // Observe elements
-    document.querySelectorAll('.stats-container, .testimonial-card, .blog-card').forEach(el => observer.observe(el));
-
-    // Initialize typewriter after preloader
-    window.addEventListener('load', typeWriter);
   </script>
 </body>
 </html>
