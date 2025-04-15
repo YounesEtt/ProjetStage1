@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PowerFit - Exercise Library</title>
+  <title>PowerFit - Exercise Detail</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* Base styles from previous code */
     :root {
       --primary-color: #00ff88;
       --secondary-color: #00cc66;
       --background-color: #1a1a1a;
       --card-background: #2d2d2d;
       --text-color: #ffffff;
-      --section-spacing: 4rem;
     }
 
     * {
@@ -189,7 +187,7 @@
 
     .exercise-info h3 {
       margin-bottom: 0.5rem;
-      color: var(--text-color);
+      color: var(--primary-color);
     }
 
     .exercise-info p {
@@ -247,100 +245,189 @@
       }
     }
 
-    /* Additions to existing styles */
-    .category-header {
+    /* New Features */
+    .section-header {
       text-align: center;
-      margin: 4rem 0 2rem;
-      position: relative;
+      margin-bottom: 3rem;
     }
 
-    .category-header h2 {
+    .section-header h2 {
       font-size: 2.5rem;
-      display: inline-block;
-      padding: 0 2rem;
-      background: var(--background-color);
-      position: relative;
-      z-index: 1;
+      margin-bottom: 1rem;
     }
 
-    .exercise-card {
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem 5%;
     }
 
-    .exercise-badge {
-      position: absolute;
+    .feature-card {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .feature-card i {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .progress-tracker {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      margin: 2rem 5%;
+    }
+
+    .exercise-detail {
+      padding: 4rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 2rem;
+    }
+
+    .exercise-video {
+      position: sticky;
       top: 1rem;
-      right: 1rem;
-      background: var(--primary-color);
-      color: var(--background-color);
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
+      border-radius: 15px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16/9;
+    }
+
+    .exercise-video iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .exercise-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
     }
 
     .exercise-meta {
-      display: flex;
-      gap: 1rem;
-      margin: 0.5rem 0;
-      font-size: 0.9rem;
-      color: var(--primary-color);
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
     }
 
-    .exercise-difficulty {
+    .equipment-gallery {
       display: flex;
-      gap: 0.25rem;
-      color: #ffd700;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .equipment-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--primary-color);
+    }
+
+    .progress-logger {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+    }
+
+    .progress-form {
+      display: grid;
+      gap: 1.5rem;
       margin-top: 1rem;
     }
 
-    /* New Features */
-    .floating-fab {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: var(--primary-color);
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
+    .form-group {
+      display: grid;
+      gap: 0.5rem;
     }
 
-    .warmup-banner {
-      background: var(--primary-color);
-      color: var(--background-color);
+    input[type="number"] {
       padding: 1rem;
-      text-align: center;
-      margin: 1rem 5%;
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .exercise-card:hover .exercise-info {
-      background: linear-gradient(transparent, rgba(0, 255, 136, 0.1));
-    }
-
-    .equipment-tag {
-      display: inline-block;
+      border: none;
+      background: var(--background-color);
       color: var(--text-color);
-      padding: 0.25rem 0.75rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      font-size: 0.8rem;
-      margin: 0.25rem 0;
+      width: 100%;
+    }
+
+    .muscles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .muscle-card {
+      text-align: center;
+      background: var(--card-background);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .muscle-image {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin: 0 auto 1rem;
+    }
+
+    .exercise-media {
+    position: absolute;
+    top: 8rem; /* 5rem navbar + 1rem spacing */
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    right: 45px;
+  }
+    .exercise-gif {
+    width: 350px;
+    border-radius: 15px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .exercise-gif img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Changed from cover to contain */
+    display: block;
+  }
+
+  .exercise-video {
+    width: 350px;
+    height: fit-content;
+    border-radius: 15px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    background: #000;
+  }
+
+  @media (max-width: 768px) {
+    .exercise-media {
+      position: absolute;
+      width: 100%;
     }
     
-    .navbar {
+    .exercise-gif, .exercise-video {
+      width: 100%;
+    }
+  }
+
+  .navbar {
       background-color: rgba(34, 34, 34, 0.95);
       padding: 1rem 5%;
       position: fixed;
@@ -804,6 +891,17 @@
     .rating {
       color: #ffd700;
     }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .logo span {
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
   </style>
 </head>
 <body>
@@ -848,207 +946,113 @@
     </nav>
   </header>
 
-  <main>
-    <!-- Warm-up Banner -->
-    <div class="warmup-banner">
-      <i class="fas fa-fire"></i>
-      <span>Always start with 10 minutes of warm-up exercises!</span>
+  <main class="exercise-detail">
+    <div class="exercise-content">
+      <!-- Exercise Details -->
+      <div class="exercise-meta">
+        <h1>LatPulldown</h1>
+        <div class="exercise-stats">
+          <p><i class="fas fa-dumbbell"></i> Recommended: 4 sets of 8-12 reps</p>
+          <p><i class="fas fa-level-up-alt"></i> Difficulty: Beginner</p><br>
+          <p><b>Sit comfortably on the pulldown seat with your feet flat on the floor. Check the height of the bar. You may need to adjust the bar height by shortening or lengthening the chain or cable that supports the bar or your seat height. Ask a certified personal trainer to help if necessary.<br>
+            <br>
+            The lat pulldown bar should be at a height so your outstretched arms can comfortably grasp the bar without having to stand up entirely, but you should also be able to extend your arms to achieve a full range of motion. If the lat pulldown station has a thigh pad, adjust it so your upper thighs are tucked under the pad. This will help you when you apply effort to the bar.<br>
+            <br>
+            
+            </b><br><br>
+            <i>1. Grasp the bar with a wide, overhand, knuckles-up grip. Other positions and grips are possible but start with this standard position.<br>
+            2. Pull the lat pulldown bar until it's approximately level with the chin. Exhale on the downward motion. While shifting slightly backward is OK, aim to keep your upper torso stationary. Keep your feet flat on the floor and engage your abs as you pull. The bottom of the motion should be where your elbows can't move downward anymore without moving backward. Be sure to stop at that point and do not go lower.<br>
+            3. Squeeze the shoulder blades together while maintaining square shoulders.<br>
+            4. From the bottom position with the bar close to your chin, slowly return the lat pulldown bar to the starting position while controlling its gradual ascent. Don't let it crash into the weight plates.<br>
+            5. Continue until you complete eight to 12 repetitions in a set. Rest, then continue to complete your program of sets.<br>
+            </i><br>
+          </p><br>
+        </div>
+
+        <!-- Equipment Section -->
+        <h3>Required Equipment</h3>
+        <div class="equipment-gallery">
+          <img src="https://images-cdn.ubuy.co.in/66748afb0dbc2041eb474277-lat-pull-down-machines-cable-pulley.jpg" alt="cable pulley machine" class="equipment-thumb">
+        </div>
+
+        <!-- Muscles Worked -->
+        <h3>Target Muscles</h3>
+        <div class="muscles-grid">
+          <div class="muscle-card">
+            <img src="" alt="back" class="muscle-image">
+            <h4>back</h4>
+          </div>
+          <div class="muscle-card">
+            <img src="https://www.sportsinjuryclinic.net/wp-content/uploads/2018/08/shoulder-pain800.jpg" alt="Shoulders" class="muscle-image">
+            <h4>Shoulders</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Logger -->
+      <div class="progress-logger">
+        <h2>Log Your Progress</h2>
+        <div class="progress-form">
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <input type="number" min="0" step="2.5">
+          </div>
+          <div class="form-group">
+            <label>Reps Completed</label>
+            <input type="number" min="1" max="1000">
+          </div>
+          <button class="cta-button" style="width: 100%">
+            <i class="fas fa-save"></i> Save Session
+          </button>
+        </div>
+        <div class="pr-display" style="margin-top: 1.5rem;">
+          <h4>Current Personal Best: 100kg × 8 reps</h4>
+        </div>
+      </div>
     </div>
 
-    <!-- Upper Body Section -->
-    <section class="exercise-section">
-      <div class="category-header">
-        <h2>Upper Body Exercises</h2>
-      </div>
-
-      <div class="exercise-grid">
-        <a href="BenchPress.html" style="text-decoration: none;" class="exercise-card">
-          <span class="exercise-badge">Barbell</span>
-          <img src="https://t3.ftcdn.net/jpg/00/78/42/64/360_F_78426476_1b0noG1El961AbjaQ0n0p9hVBaqZ69fy.jpg" alt="Bench Press">
-          <div class="exercise-info">
-            <h3>Bench Press</h3>
-            <div class="equipment-tag">Flat Bench</div>
-            <p class="exercise-description">Develop chest strength with this fundamental push exercise</p>
-            <div class="exercise-meta">
-              <span><i class="fas fa-dumbbell"></i> 3-5 Sets</span>
-              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
-            </div>
-            <div class="exercise-difficulty">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-            </div>
-          </div>
-        </a>
-
-        <!-- More Upper Body Cards -->
-        <a href="LatPulldown.html" style="text-decoration: none;" class="exercise-card">
-          <span class="exercise-badge">Machine</span>
-          <img src="https://www.shutterstock.com/image-photo/bodybuilder-gym-muscular-man-working-600nw-2341653227.jpg" alt="Lat Pulldown">
-          <div class="exercise-info">
-            <h3>Lat Pulldown</h3>
-            <div class="equipment-tag">Cable Machine</div>
-            <p class="exercise-description">Target your lats for that V-taper look</p>
-            <div class="exercise-meta">
-              <span><i class="fas fa-dumbbell"></i> 4 Sets</span>
-              <span><i class="fas fa-level-up-alt"></i> Beginner</span>
-            </div>
-            <div class="exercise-difficulty">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Lower Body Section -->
-    <section class="exercise-section">
-      <div class="category-header">
-        <h2>Lower Body Exercises</h2>
-      </div>
-
-      <div class="exercise-grid">
-        <a href="BarbellSquats.html" style="text-decoration: none;" class="exercise-card">
-          <span class="exercise-badge">Barbell</span>
-          <img src="https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2019/03/1109-squat2.jpg?quality=86&strip=all" alt="Barbell Squats">
-          <div class="exercise-info">
-            <h3>Barbell Squats</h3>
-            <div class="equipment-tag">Squat Rack</div>
-            <p class="exercise-description">The king of lower body exercises</p>
-            <div class="exercise-meta">
-              <span><i class="fas fa-dumbbell"></i> 4-5 Sets</span>
-              <span><i class="fas fa-level-up-alt"></i> Advanced</span>
-            </div>
-            <div class="exercise-difficulty">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-          </div>
-        </a>
-
-        <!-- More Lower Body Cards -->
-      </div>
-    </section>
-
-    <!-- Floating Action Button -->
-    <div class="floating-fab" id="programBuilderFab">
-      <i class="fas fa-plus"></i>
+    <div class="exercise-media">
+        <!-- GIF Section -->
+        <div class="exercise-gif">
+          <img src="https://media.tenor.com/PVR9ra9tAwcAAAAM/pulley-pegada-aberta.gif" 
+               alt="lat pulldown Form GIF"
+               style="object-fit: cover;">
+        </div>
+  
+        <!-- Video Section -->
+        <div class="exercise-video">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID" 
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope" 
+                  allowfullscreen></iframe>
+        </div>
     </div>
   </main>
 
   <script>
-    // Enhanced Interactions
     document.addEventListener('DOMContentLoaded', () => {
-      // Hover effect for exercise cards
-      document.querySelectorAll('.exercise-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          card.style.transform = 'translateY(-5px) scale(1.02)';
-        });
+      const saveButton = document.querySelector('.cta-button');
+      
+      saveButton.addEventListener('click', () => {
+        const weight = document.querySelector('input[type="number"]:first-of-type').value;
+        const reps = document.querySelector('input[type="number"]:last-of-type').value;
         
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = 'none';
-        });
+        if(weight && reps) {
+          localStorage.setItem('benchPressPR', `${weight}kg × ${reps} reps`);
+          updatePRDisplay();
+          alert('Progress saved successfully!');
+        }
       });
 
-      // Program Builder FAB
-      document.getElementById('programBuilderFab').addEventListener('click', () => {
-        window.location.href = 'program-builder.html';
-      });
-
-      // Warm-up reminder localStorage
-      if(!localStorage.getItem('warmupDismissed')) {
-        document.querySelector('.warmup-banner').style.display = 'flex';
+      function updatePRDisplay() {
+        const pr = localStorage.getItem('benchPressPR');
+        if(pr) {
+          document.querySelector('.pr-display h4').textContent = `Current Personal Best: ${pr}`;
+        }
       }
+      
+      // Initialize PR display
+      updatePRDisplay();
     });
-        // Auth System
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-  
-  function handleAuth(isLogin) {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    
-    if(isLogin) {
-      const user = users.find(u => u.email === email && u.password === password);
-      if(user) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        alert('Login successful!');
-      } else {
-        alert('Invalid credentials!');
-      }
-    } else {
-      const newUser = { email, password, programs: [] };
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-      localStorage.setItem('currentUser', JSON.stringify(newUser));
-      alert('Registration successful!');
-    }
-  }
-  document.addEventListener('DOMContentLoaded', function () {
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-
-    // Hamburger menu toggle
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
-
-    // Close mobile menu on click outside
-    document.addEventListener('click', (e) => {
-      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-        navLinks.classList.remove('active');
-      }
-    });
-  });
-  // Modal handling
-  const modal = document.getElementById('authModal');
-  const loginBtn = document.getElementById('loginBtn');
-  const signupBtn = document.getElementById('signupBtn');
-  const closeBtn = document.querySelector('.close');
-  const formSwitch = document.querySelectorAll('#formSwitch span');
-
-  // Show modal
-  function showModal(isLogin) {
-    modal.style.display = 'block';
-    document.getElementById('formSwitch').children[isLogin ? 1 : 0].classList.add('switch-active');
-    document.getElementById('formSwitch').children[isLogin ? 0 : 1].classList.remove('switch-active');
-  }
-
-  // Event listeners
-  loginBtn.addEventListener('click', () => showModal(true));
-  signupBtn.addEventListener('click', () => showModal(false));
-  
-  closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
-
-  // Form switch
-  formSwitch.forEach(span => {
-    span.addEventListener('click', () => {
-      formSwitch.forEach(s => s.classList.remove('switch-active'));
-      span.classList.add('switch-active');
-    });
-  });
-
-  // Auth form submission
-  document.getElementById('authForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const isLogin = document.querySelector('#formSwitch .switch-active').textContent === 'Login';
-    handleAuth(isLogin);
-    modal.style.display = 'none';
-  });
   </script>
 </body>
 </html>

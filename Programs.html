@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PowerFit - Fitness Programs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #00ff88;
+      --secondary-color: #00cc66;
+      --background-color: #1a1a1a;
+      --card-background: #2d2d2d;
+      --text-color: #ffffff;
+      --section-spacing: 4rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Enhanced Navigation */
+    .navbar {
+      background-color: rgba(34, 34, 34, 0.95);
+      padding: 1rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .auth-button {
+    background: var(--primary-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+  }
+
+  .modal-content {
+    position: relative;
+    background: var(--card-background);
+    margin: 15% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+  }
+
+  .close {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: var(--text-color);
+    }
+
+    #formSwitch {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      justify-content: center;
+    }
+
+    .switch-active {
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #authForm input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      background: #333;
+      border: none;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary-color);
+    }
+
+    .hamburger {
+      display: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b') center/cover;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    /* Exercise Grid */
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+
+    .exercise-card {
+      background: var(--card-background);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .exercise-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .exercise-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .exercise-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .exercise-info {
+      padding: 1.5rem;
+    }
+
+    .exercise-info h3 {
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+
+    .exercise-info p {
+      color: #cccccc;
+      font-size: 0.9rem;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--primary-color);
+      color: var(--background-color);
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      background-color: var(--secondary-color);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 4rem;
+        right: -100%;
+        flex-direction: column;
+        background: var(--card-background);
+        width: 100%;
+        max-width: 250px;
+        padding: 1rem;
+        transition: right 0.3s;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* New Features */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem 5%;
+    }
+
+    .feature-card {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .feature-card i {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .progress-tracker {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      margin: 2rem 5%;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--card-background);
+      min-width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .dropdown-content a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--background-color);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s;
+    }
+    
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--primary-color);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .preloader {
+      background: var(--background-color);
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 1s;
+    }
+
+    .stats-container.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stat-card {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      min-width: 180px;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 0 5%;
+    }
+
+    .testimonial-card {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 1s;
+    }
+
+    .testimonial-card.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .testimonial-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+    }
+
+    .challenge-banner {
+      background: var(--card-background);
+      color: var(--primary-color);
+      margin: 4rem 5%;
+      padding: 2rem;
+      border-radius: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .challenge-text {
+      color: var(--text-color);
+    }
+
+    .progress-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary-color) 35%, transparent 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 5%;
+    }
+
+    .blog-card {
+      background: var(--card-background);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .blog-content {
+      padding: 1.5rem;
+    }
+
+    .rating {
+      color: #ffd700;
+    }
+
+    .section-spacing {
+      padding: 4rem 5%;
+    }
+
+    .alt-bg {
+      background: var(--card-background);
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .program-card {
+      background: var(--background-color);
+      padding: 2rem;
+      border-radius: 15px;
+      position: relative;
+      border: 2px solid var(--primary-color);
+      transition: transform 0.3s;
+    }
+
+    .program-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .program-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: var(--primary-color);
+      color: var(--background-color);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .program-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .progress-container {
+      height: 8px;
+      background: #333;
+      border-radius: 4px;
+      margin: 1rem 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--primary-color);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .nutrition-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .nutrition-tabs button {
+      background: none;
+      border: 2px solid var(--primary-color);
+      color: var(--text-color);
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .tab-active {
+      background: var(--primary-color) !important;
+      color: var(--background-color) !important;
+    }
+
+    .meal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .meal-card {
+      background: var(--background-color);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .meal-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .meal-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .meal-info {
+      padding: 1.5rem;
+    }
+
+    .macros {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      color: var(--primary-color);
+    }
+
+    .personalized-banner {
+      background: var(--card-background);
+      margin: 4rem 5%;
+      padding: 2rem;
+      border-radius: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .banner-content {
+      flex: 1;
+    }
+
+    .animation-container {
+      position: relative;
+      width: 300px;
+      height: 200px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .muscle-anim {
+      width: 100px;
+      height: 100px;
+      background: url('muscle-icon.svg') center/contain;
+      animation: pulse 2s infinite;
+    }
+
+    .coach-program-card {
+      background: var(--background-color);
+      padding: 2rem;
+      border-radius: 15px;
+      position: relative;
+    }
+
+    .coach-badge {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .coach-badge img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .program-details {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+
+    .program-details li {
+      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Add these styles */
+.coach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.coach-card {
+  background: var(--card-background);
+  padding: 1.5rem;
+  border-radius: 15px;
+  transition: transform 0.3s;
+}
+
+.coach-card:hover {
+  transform: translateY(-5px);
+}
+
+.coach-header {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.coach-header img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+}
+
+.coach-meta {
+  flex: 1;
+}
+
+.specialty {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  margin: 0.3rem 0;
+}
+
+.rating {
+  font-size: 0.9rem;
+  color: #cccccc;
+}
+
+.coach-stats {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.coach-stats li {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.9rem;
+}
+
+.nutrition-tabs {
+  position: relative;
+  margin: 2rem 0;
+}
+
+.nutrition-tabs::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #333;
+}
+
+.tab-content {
+  display: none;
+  padding: 2rem 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nutrition-tabs button {
+  background: none;
+  border: 2px solid var(--primary-color);
+  color: var(--text-color);
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.nutrition-tabs button:hover {
+  background: rgba(0, 255, 136, 0.1);
+}
+
+.nutrition-tabs button.tab-active {
+  background: var(--primary-color);
+  color: var(--background-color);
+}
+
+.program-card {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 15px;
+  position: relative;
+  border: 2px solid var(--primary-color);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.program-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 255, 136, 0.1);
+}
+
+.program-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.program-card h3 {
+  margin: 1rem 0;
+  color: var(--text-color);
+}
+
+.program-card p {
+  color: #cccccc;
+  margin-bottom: 1.5rem;
+}
+
+.diet-plan h4 {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+  </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+          <a href="index.html" class="logo">
+            <span style="display: inline-block; animation: pulse 2s infinite">PowerFit</span>
+          </a>
+          <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li class="dropdown">
+              <a style="cursor: pointer;">Exercises ▾</a>
+              <div class="dropdown-content">
+                <a href="gym.html">Gym Workouts</a>
+                <a href="calisthenics.html">Calisthenics</a>
+              </div>
+            </li>
+            <li><a href="Programs.html">Programs</a></li>
+            <li><a href="Coaches.html">For Coaches</a></li>
+          </ul>
+          <div class="auth-buttons">
+            <button id="loginBtn" class="auth-button">Login</button>
+            <button id="signupBtn" class="auth-button">Sign Up</button>
+          </div>
+          
+          <div id="authModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <form id="authForm">
+                <h2>Welcome to PowerFit</h2>
+                <div id="formSwitch">
+                  <span class="switch-active">Sign Up</span>
+                  <span>Login</span>
+                </div>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="cta-button">Get Started</button>
+              </form>
+            </div>
+          </div>
+          <i class="hamburger fas fa-bars"></i>
+        </nav>
+      </header>
+
+  <main>
+    <!-- Hydration Programs Section -->
+    <section class="section-spacing">
+      <div class="section-header">
+        <h2><br>Smart Hydration Plans</h2>
+        <p>Optimize your fluid intake for peak performance</p>
+      </div>
+
+      <div class="program-grid">
+        <div class="program-card">
+          <div class="program-badge">New</div>
+          <i class="fas fa-tint program-icon"></i>
+          <h3>Intense Training Hydration</h3>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 65%"></div>
+          </div>
+          <p>Daily goal: 4L (80oz) - Electrolyte balanced</p>
+          <button class="cta-button">Start Plan</button>
+        </div>
+
+        <div class="program-card">
+          <i class="fas fa-mountain program-icon"></i>
+          <h3>Calisthenics Flow Hydration</h3>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 45%"></div>
+          </div>
+          <p>Dynamic hydration for outdoor training</p>
+          <button class="cta-button">Start Plan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nutrition Programs Section -->
+    <section class="section-spacing alt-bg">
+      <div class="section-header">
+        <h2>Performance Nutrition</h2>
+        <p>Fuel your gains with science-based meal plans</p>
+      </div>
+
+      <div class="nutrition-tabs">
+        <button class="tab-active">Muscle Building</button>
+        <button>Lean Cutting</button>
+        <button>Strength Maintenance</button>
+      </div>
+
+      <div class="nutrition-content">
+        <div class="tab-content active" id="muscle-building">
+          <div class="diet-plan">
+            <h4><i class="fas fa-dumbbell"></i> Bulking Essentials</h4>
+            <div class="program-grid">
+              <div class="program-card">
+                <div class="program-badge">Best Seller</div>
+                <i class="fas fa-weight-hanging program-icon"></i>
+                <h3>Mass Gain Protocol</h3>
+                <p>5000kcal/day · 6 meals · 2g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+              <div class="program-card">
+                <i class="fas fa-fire program-icon"></i>
+                <h3>Clean Bulk Master</h3>
+                <p>4500kcal/day · 5 meals · 1.8g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+              <div class="program-card">
+                <i class="fas fa-bolt program-icon"></i>
+                <h3>Power Builder</h3>
+                <p>4800kcal/day · 6 meals · 2.2g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="lean-cutting">
+          <div class="diet-plan">
+            <h4><i class="fas fa-fire"></i> Cutting Programs</h4>
+            <div class="program-grid">
+              <div class="program-card">
+                <div class="program-badge">Popular</div>
+                <i class="fas fa-burn program-icon"></i>
+                <h3>Shred Master</h3>
+                <p>2200kcal/day · 4 meals · 2g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+              <div class="program-card">
+                <i class="fas fa-wind program-icon"></i>
+                <h3>Lean Machine</h3>
+                <p>2000kcal/day · 5 meals · 1.8g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+              <div class="program-card">
+                <i class="fas fa-running program-icon"></i>
+                <h3>Athletic Cut</h3>
+                <p>2400kcal/day · 5 meals · 2.2g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="strength-maintenance">
+          <div class="diet-plan">
+            <h4><i class="fas fa-balance-scale"></i> Maintenance Programs</h4>
+            <div class="program-grid">
+              <div class="program-card">
+                <div class="program-badge">Balanced</div>
+                <i class="fas fa-dumbbell program-icon"></i>
+                <h3>Strength Keeper</h3>
+                <p>3000kcal/day · 4 meals · 1.6g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+              <div class="program-card">
+                <i class="fas fa-heart program-icon"></i>
+                <h3>Performance Plus</h3>
+                <p>3200kcal/day · 5 meals · 1.8g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+              <div class="program-card">
+                <i class="fas fa-shield-alt program-icon"></i>
+                <h3>Endurance Elite</h3>
+                <p>3400kcal/day · 5 meals · 1.7g/kg protein</p>
+                <button class="cta-button">View Plan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Coach Programs Section -->
+    <section class="section-spacing">
+      <div class="section-header">
+        <h2>Certified Coaches</h2>
+        <p>Learn from elite fitness professionals</p>
+      </div>
+
+      <div class="coach-grid">
+        <!-- Coach 1 -->
+        <div class="coach-card">
+          <div class="coach-header">
+            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Coach">
+            <div class="coach-meta">
+              <h3>Mark Johnson</h3>
+              <div class="specialty">Strength Training</div>
+              <div class="rating">
+                <i class="fas fa-star"></i>4.9 · 428 clients
+              </div>
+            </div>
+          </div>
+          <ul class="coach-stats">
+            <li><i class="fas fa-trophy"></i>5x Powerlifting Champion</li>
+            <li><i class="fas fa-user-graduate"></i>NASM Certified</li>
+            <li><i class="fas fa-dumbbell"></i>12+ Years Experience</li>
+          </ul>
+          <button class="cta-button">View Programs</button>
+        </div>
+    
+        <!-- Coach 2 -->
+        <div class="coach-card">
+          <div class="coach-header">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Coach">
+            <div class="coach-meta">
+              <h3>Sarah Wilson</h3>
+              <div class="specialty">Calisthenics</div>
+              <div class="rating">
+                <i class="fas fa-star"></i>4.8 · 312 clients
+              </div>
+            </div>
+          </div>
+          <ul class="coach-stats">
+            <li><i class="fas fa-medal"></i>Street Workout World Finalist</li>
+            <li><i class="fas fa-user-graduate"></i>ACE Certified</li>
+            <li><i class="fas fa-dumbbell"></i>8+ Years Experience</li>
+          </ul>
+          <button class="cta-button">View Programs</button>
+        </div>
+    
+        <!-- Add 4 more coaches following the same pattern -->
+        
+      </div>
+    </section>
+
+    <!-- Personalized Program Section -->
+    <div class="personalized-banner">
+      <div class="banner-content">
+        <h3>Get Your Custom Plan</h3>
+        <p>Answer a few questions and get a program tailored to your goals</p><br>
+        <button class="cta-button" id="startPersonalization">Start Now</button>
+      </div>
+      <div class="banner-visual">
+        <div class="animation-container">
+          <div class="muscle-anim"></div>
+          <div class="nutrition-anim"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Add tab functionality
+    const tabs = document.querySelectorAll('.nutrition-tabs button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('tab-active'));
+        tab.classList.add('tab-active');
+      });
+    });
+
+    // Animate progress bars on scroll
+    const progressBars = document.querySelectorAll('.progress-bar');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.style.width = entry.target.dataset.progress;
+        }
+      });
+    });
+
+    progressBars.forEach(bar => observer.observe(bar));
+    // Enhanced Tab System
+document.querySelectorAll('.nutrition-tabs button').forEach(button => {
+  button.addEventListener('click', () => {
+    // Remove active classes
+    document.querySelectorAll('.nutrition-tabs button').forEach(b => b.classList.remove('tab-active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    
+    // Add active classes
+    button.classList.add('tab-active');
+    const target = button.textContent.toLowerCase().replace(' ', '-');
+    document.getElementById(target).classList.add('active');
+  });
+});
+
+// Coach Card Interactions
+document.querySelectorAll('.coach-card').forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    card.style.boxShadow = '0 10px 20px rgba(0,255,136,0.1)';
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    card.style.boxShadow = 'none';
+  });
+});
+
+// Add hover effects to program cards
+document.querySelectorAll('.program-card').forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    card.style.transform = 'translateY(-5px)';
+    card.style.boxShadow = '0 10px 20px rgba(0,255,136,0.1)';
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'translateY(0)';
+    card.style.boxShadow = 'none';
+  });
+});
+  </script>
+</body>
+</html>

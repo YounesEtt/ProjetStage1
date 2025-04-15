@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PowerFit - For Coaches</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #00ff88;
+      --secondary-color: #00cc66;
+      --background-color: #1a1a1a;
+      --card-background: #2d2d2d;
+      --text-color: #ffffff;
+      --section-spacing: 4rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Navigation styles */
+    .navbar {
+      background-color: rgba(34, 34, 34, 0.95);
+      padding: 1rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      transform: translateZ(0);
+    }
+
+    .nav-links {
+      contain: content;
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      position: relative;
+      z-index: 1000;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--card-background);
+      min-width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 100000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      transform: translateY(10px);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .dropdown-content a:hover {
+      background: var(--primary-color);
+      color: var(--background-color);
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .auth-button {
+      background: none;
+      border: 2px solid var(--primary-color);
+      color: var(--text-color);
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .auth-button:hover {
+      background: var(--primary-color);
+      color: var(--background-color);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1001;
+    }
+
+    .modal-content {
+      position: relative;
+      background: var(--card-background);
+      margin: 15% auto;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: var(--text-color);
+    }
+
+    #formSwitch {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      justify-content: center;
+    }
+
+    .switch-active {
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #authForm input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      background: #333;
+      border: none;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .logo span {
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    .hamburger {
+      display: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 4rem;
+        right: -100%;
+        flex-direction: column;
+        background: var(--card-background);
+        width: 100%;
+        max-width: 250px;
+        padding: 1rem;
+        transition: right 0.3s;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b') center/cover;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    /* Benefits Section */
+    .benefits-section {
+      padding: 6rem 5%;
+      background: var(--background-color);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: var(--primary-color);
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .benefit-card {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .benefit-icon {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    /* Testimonials Section */
+    .testimonials-section {
+      padding: 6rem 5%;
+      background: var(--card-background);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: var(--background-color);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .testimonial-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      object-fit: cover;
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 6rem 5%;
+      text-align: center;
+      background: var(--background-color);
+    }
+
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .cta-text {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--primary-color);
+      color: var(--background-color);
+      padding: 1rem 2.5rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px);
+      background: var(--secondary-color);
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 4rem 5%;
+      background: var(--card-background);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 2rem;
+      background: var(--background-color);
+      border-radius: 15px;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      padding: 6rem 5%;
+      background: var(--background-color);
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      margin-bottom: 1.5rem;
+      background: var(--card-background);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .faq-question:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .faq-answer {
+      padding: 0 1.5rem 1.5rem;
+      display: none;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .faq-toggle {
+      color: var(--primary-color);
+      transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-toggle {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .benefits-grid, .testimonial-grid, .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <span style="display: inline-block; animation: pulse 2s infinite">PowerFit</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" style="cursor: pointer;">Exercises ▾</a>
+          <div class="dropdown-content">
+            <a href="gym.html">Gym Workouts</a>
+            <a href="calisthenics.html">Calisthenics</a>
+          </div>
+        </li>
+        <li><a href="Programs.html">Programs</a></li>
+        <li><a href="Coaches.html" class="active">For Coaches</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <button class="auth-button" onclick="openModal('login')">Login</button>
+        <button class="auth-button" onclick="openModal('signup')">Sign Up</button>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Join Our Elite Team of Fitness Coaches</h1>
+      <p>Share your expertise, inspire others, and build a rewarding career with PowerFit</p>
+      <a href="CoachRegistration.html" class="cta-button">Become a Coach</a>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+      <h2 class="section-title">Why Join PowerFit?</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <h3>Earn More</h3>
+          <p>Our platform allows you to set competitive rates and earn more than traditional gym positions.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Reach More Clients</h3>
+          <p>Access our growing community of fitness enthusiasts looking for personalized coaching.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <h3>Flexible Schedule</h3>
+          <p>Set your own hours and work with clients at times that suit your lifestyle.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-laptop"></i>
+          </div>
+          <h3>Easy Management</h3>
+          <p>Our platform handles scheduling, payments, and client management so you can focus on coaching.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Professional Development</h3>
+          <p>Access exclusive training resources and stay updated with the latest fitness trends.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Grow Your Business</h3>
+          <p>Build your client base and expand your fitness business with our marketing tools.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Active Coaches</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">10,000+</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">$2,500</div>
+          <div class="stat-label">Avg. Monthly Earnings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">4.8/5</div>
+          <div class="stat-label">Coach Satisfaction</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+      <h2 class="section-title">What Our Coaches Say</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Coach" class="testimonial-img">
+          <p class="testimonial-text">"Joining PowerFit was the best decision for my fitness career. I've doubled my income and have the freedom to work with clients on my own schedule."</p>
+          <p class="testimonial-author">- Michael T., Strength Coach</p>
+        </div>
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Coach" class="testimonial-img">
+          <p class="testimonial-text">"The platform is incredibly easy to use. I can focus on what I love - coaching - while PowerFit handles all the administrative tasks."</p>
+          <p class="testimonial-author">- Sarah L., Yoga Instructor</p>
+        </div>
+        <div class="testimonial-card">
+          <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Coach" class="testimonial-img">
+          <p class="testimonial-text">"I've been able to reach clients I never would have found on my own. The community is supportive and the earning potential is fantastic."</p>
+          <p class="testimonial-author">- David R., Personal Trainer</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How do I become a PowerFit coach? <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            To become a PowerFit coach, you need to complete our registration process, which includes providing your professional credentials, experience, and certifications. Once approved, you'll be able to create your profile and start accepting clients.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            What qualifications do I need? <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            We require at least one recognized fitness certification (NASM, ACE, ISSA, etc.) and a minimum of 1 year of coaching experience. Additional certifications and specializations are highly valued.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How do I get paid? <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            PowerFit handles all payments securely through our platform. You'll receive your earnings via direct deposit every two weeks, minus our standard 15% platform fee.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            Can I work with clients in person and online? <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            Yes! PowerFit supports both in-person and online coaching. You can choose to offer either or both types of sessions based on your preferences and client needs.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            How much can I earn? <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            Earnings vary based on your experience, specialization, and client base. Our top coaches earn $5,000+ monthly. You set your own rates, and our platform helps you maximize your earning potential.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to Transform Lives?</h2>
+        <p class="cta-text">Join our community of professional coaches and start making a difference in people's lives while building a rewarding career.</p>
+        <a href="CoachRegistration.html" class="cta-button">Apply Now</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div id="formSwitch">
+        <span class="switch-active" id="loginSwitch" onclick="switchForm('login')">Login</span>
+        <span id="signupSwitch" onclick="switchForm('signup')">Sign Up</span>
+      </div>
+      <form id="authForm">
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit" class="auth-button">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // FAQ Toggle
+    function toggleFAQ(element) {
+      const item = element.parentElement;
+      const isActive = item.classList.contains('active');
+      
+      // Close all FAQ items
+      document.querySelectorAll('.faq-item').forEach(faq => {
+        faq.classList.remove('active');
+      });
+      
+      // Open clicked item if it wasn't active
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    }
+
+    // Modal functionality
+    function openModal(type) {
+      const modal = document.getElementById('authModal');
+      modal.style.display = 'block';
+      switchForm(type);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('authModal');
+      modal.style.display = 'none';
+    }
+
+    function switchForm(type) {
+      const loginSwitch = document.getElementById('loginSwitch');
+      const signupSwitch = document.getElementById('signupSwitch');
+      const form = document.getElementById('authForm');
+      
+      if (type === 'login') {
+        loginSwitch.classList.add('switch-active');
+        signupSwitch.classList.remove('switch-active');
+        form.innerHTML = `
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Password" required>
+          <button type="submit" class="auth-button">Login</button>
+        `;
+      } else {
+        loginSwitch.classList.remove('switch-active');
+        signupSwitch.classList.add('switch-active');
+        form.innerHTML = `
+          <input type="text" placeholder="Full Name" required>
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Password" required>
+          <input type="password" placeholder="Confirm Password" required>
+          <button type="submit" class="auth-button">Sign Up</button>
+        `;
+      }
+    }
+
+    // Mobile menu functionality
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('active');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('authModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html> 

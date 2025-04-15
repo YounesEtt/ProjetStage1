@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PowerFit - Exercise Library</title>
+  <title>PowerFit - Calisthenics Exercise Library</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     /* Base styles from previous code */
@@ -340,17 +340,489 @@
       margin: 0.25rem 0;
     }
     
+    .navbar {
+      background-color: rgba(34, 34, 34, 0.95);
+      padding: 1rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .auth-button {
+    background: var(--primary-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+  }
+
+  .modal-content {
+    position: relative;
+    background: var(--card-background);
+    margin: 15% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+  }
+
+  .close {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: var(--text-color);
+    }
+
+    #formSwitch {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      justify-content: center;
+    }
+
+    .switch-active {
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #authForm input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      background: #333;
+      border: none;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary-color);
+    }
+
+    .hamburger {
+      display: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b') center/cover;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    /* Exercise Grid */
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+
+    .exercise-card {
+      background: var(--card-background);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .exercise-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .exercise-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .exercise-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .exercise-info {
+      padding: 1.5rem;
+    }
+
+    .exercise-info h3 {
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+
+    .exercise-info p {
+      color: #cccccc;
+      font-size: 0.9rem;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--primary-color);
+      color: var(--background-color);
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      background-color: var(--secondary-color);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 4rem;
+        right: -100%;
+        flex-direction: column;
+        background: var(--card-background);
+        width: 100%;
+        max-width: 250px;
+        padding: 1rem;
+        transition: right 0.3s;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* New Features */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem 5%;
+    }
+
+    .feature-card {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .feature-card i {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .progress-tracker {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      margin: 2rem 5%;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--card-background);
+      min-width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .dropdown-content a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--background-color);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s;
+    }
+    
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--primary-color);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .preloader {
+      background: var(--background-color);
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 1s;
+    }
+
+    .stats-container.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stat-card {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      min-width: 180px;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 0 5%;
+    }
+
+    .testimonial-card {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 1s;
+    }
+
+    .testimonial-card.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .testimonial-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+    }
+
+    .challenge-banner {
+      background: var(--card-background);
+      color: var(--primary-color);
+      margin: 4rem 5%;
+      padding: 2rem;
+      border-radius: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .challenge-text {
+      color: var(--text-color);
+    }
+
+    .progress-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary-color) 35%, transparent 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 5%;
+    }
+
+    .blog-card {
+      background: var(--card-background);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .blog-content {
+      padding: 1.5rem;
+    }
+
+    .rating {
+      color: #ffd700;
+    }
   </style>
 </head>
 <body>
   <header>
     <nav class="navbar">
-      <a href="#" class="logo">PowerFit</a>
+      <a href="index.html" class="logo">
+        <span style="display: inline-block; animation: pulse 2s infinite">PowerFit</span>
+      </a>
       <ul class="nav-links">
         <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="exercices.html">Exercises</a></li>
-        <li><a href="conseils.html">Programs</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li class="dropdown">
+          <a style="cursor: pointer;">Exercises ▾</a>
+          <div class="dropdown-content">
+            <a href="gym.html">Gym Workouts</a>
+            <a href="calisthenics.html">Calisthenics</a>
+          </div>
+        </li>
+        <li><a href="Programs.html">Programs</a></li>
+        <li><a href="Coaches.html">For Coaches</a></li>
       </ul>
       <div class="auth-buttons">
         <button id="loginBtn" class="auth-button">Login</button>
@@ -383,66 +855,198 @@
       <span>Always start with 10 minutes of warm-up exercises!</span>
     </div>
 
-    <!-- Upper Body Section -->
+    <!-- Push Exercises Section -->
     <section class="exercise-section">
       <div class="category-header">
-        <h2>Upper Body Exercises</h2>
+        <h2>Push Exercises</h2>
       </div>
-
       <div class="exercise-grid">
-        <a href="exercise-detail.html?id=bench-press" style="text-decoration: none;" class="exercise-card">
-          <span class="exercise-badge">Barbell</span>
-          <img src="https://t3.ftcdn.net/jpg/00/78/42/64/360_F_78426476_1b0noG1El961AbjaQ0n0p9hVBaqZ69fy.jpg" alt="Bench Press">
+        <a href="pushup.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Bodyweight</span>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_1FWDITfYtob844g6Ip-NpXuKMi9iVpFYHw&s" alt="Push-Up">
           <div class="exercise-info">
-            <h3>Bench Press</h3>
-            <div class="equipment-tag">Flat Bench</div>
-            <p class="exercise-description">Develop chest strength with this fundamental push exercise</p>
+            <h3>Push-Up</h3>
+            <div class="equipment-tag">No Equipment</div>
+            <p class="exercise-description">The foundational upper body exercise that targets chest, shoulders, and triceps</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-4 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Beginner</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="Dips.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Parallel Bars</span>
+          <img src="https://welltech.com/wp-content/uploads/2022/09/What-Muscles-Do-Dips-Work-Most.jpg" alt="Dips">
+          <div class="exercise-info">
+            <h3>Dips</h3>
+            <div class="equipment-tag">Parallel Bars</div>
+            <p class="exercise-description">Build triceps and chest strength with this challenging bodyweight movement</p>
             <div class="exercise-meta">
               <span><i class="fas fa-dumbbell"></i> 3-5 Sets</span>
               <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
             </div>
             <div class="exercise-difficulty">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
             </div>
           </div>
         </a>
 
-        <!-- More Upper Body Cards -->
-        <a href="exercise-detail.html?id=lat-pulldown" style="text-decoration: none;" class="exercise-card">
-          <span class="exercise-badge">Machine</span>
-          <img src="https://www.shutterstock.com/image-photo/bodybuilder-gym-muscular-man-working-600nw-2341653227.jpg" alt="Lat Pulldown">
+        <a href="handstand-pushup.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Advanced</span>
+          <img src="https://i.shgcdn.com/de930198-f71c-441e-95a6-8ad1295b2263/-/format/auto/-/preview/3000x3000/-/quality/lighter/" alt="Handstand Push-Up">
           <div class="exercise-info">
-            <h3>Lat Pulldown</h3>
-            <div class="equipment-tag">Cable Machine</div>
-            <p class="exercise-description">Target your lats for that V-taper look</p>
+            <h3>Handstand Push-Up</h3>
+            <div class="equipment-tag">Wall</div>
+            <p class="exercise-description">The ultimate shoulder builder using just your bodyweight against gravity</p>
             <div class="exercise-meta">
-              <span><i class="fas fa-dumbbell"></i> 4 Sets</span>
-              <span><i class="fas fa-level-up-alt"></i> Beginner</span>
+              <span><i class="fas fa-dumbbell"></i> 3-4 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Advanced</span>
             </div>
             <div class="exercise-difficulty">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
           </div>
         </a>
       </div>
     </section>
 
-    <!-- Lower Body Section -->
+    <!-- Pull Exercises Section -->
     <section class="exercise-section">
       <div class="category-header">
-        <h2>Lower Body Exercises</h2>
+        <h2>Pull Exercises</h2>
       </div>
-
       <div class="exercise-grid">
-        <a href="exercise-detail.html?id=squats" style="text-decoration: none;" class="exercise-card">
-          <span class="exercise-badge">Barbell</span>
-          <img src="https://i0.wp.com/www.muscleandfitness.com/wp-content/uploads/2019/03/1109-squat2.jpg?quality=86&strip=all" alt="Barbell Squats">
+        <a href="pullup.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Bodyweight</span>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS17BwGT1MjH745HfiNyhR3cQ3S0iS6Q8tA2A&s" alt="Pull-Up">
           <div class="exercise-info">
-            <h3>Barbell Squats</h3>
-            <div class="equipment-tag">Squat Rack</div>
-            <p class="exercise-description">The king of lower body exercises</p>
+            <h3>Pull-Up</h3>
+            <div class="equipment-tag">Pull-Up Bar</div>
+            <p class="exercise-description">The fundamental upper body pulling exercise for back and biceps development</p>
             <div class="exercise-meta">
-              <span><i class="fas fa-dumbbell"></i> 4-5 Sets</span>
+              <span><i class="fas fa-dumbbell"></i> 3-5 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="chinup.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Bodyweight</span>
+          <img src="https://www.dmoose.com/cdn/shop/articles/1_ce21b5ee-7607-45e6-b22b-ffb2d5c4991e.jpg?v=1653315362" alt="Chin-Up">
+          <div class="exercise-info">
+            <h3>Chin-Up</h3>
+            <div class="equipment-tag">Pull-Up Bar</div>
+            <p class="exercise-description">Similar to pull-ups but with supinated grip for more biceps activation</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-4 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="muscle-up.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Advanced</span>
+          <img src="https://madbarzpictures.blob.core.windows.net/madbarzpictures/muscleup_blog_cover71BC376002EE8F4CB32F822D2FE96A75.jpg" alt="Muscle-Up">
+          <div class="exercise-info">
+            <h3>Muscle-Up</h3>
+            <div class="equipment-tag">Pull-Up Bar</div>
+            <p class="exercise-description">The ultimate combination of pull-up and dip for explosive upper body strength</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-5 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Advanced</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Core Exercises Section -->
+    <section class="exercise-section">
+      <div class="category-header">
+        <h2>Core Exercises</h2>
+      </div>
+      <div class="exercise-grid">
+        <a href="l-sit.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Bodyweight</span>
+          <img src="https://i.ytimg.com/vi/Bz-on85oauM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDknhjIz1dlItOi7kyfyf3poOQOkA" alt="L-Sit">
+          <div class="exercise-info">
+            <h3>L-Sit</h3>
+            <div class="equipment-tag">Parallel Bars/Floor</div>
+            <p class="exercise-description">Develop core strength and compression with this isometric hold</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-5 Holds</span>
+              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="hanging-leg-raise.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Bodyweight</span>
+          <img src="https://hips.hearstapps.com/hmg-prod/images/young-muscular-build-athlete-exercising-strength-in-royalty-free-image-1724143306.jpg?crop=0.669xw:1.00xh;0.134xw,0&resize=1200:*" alt="Hanging Leg Raise">
+          <div class="exercise-info">
+            <h3>Hanging Leg Raise</h3>
+            <div class="equipment-tag">Pull-Up Bar</div>
+            <p class="exercise-description">Develop lower abs and hip flexor strength while hanging</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-4 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="dragon-flag.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Advanced</span>
+          <img src="https://calisthenicsnerd.com/wp-content/uploads/2020/12/img_9880.jpg?w=640" alt="Dragon Flag">
+          <div class="exercise-info">
+            <h3>Dragon Flag</h3>
+            <div class="equipment-tag">Bench/Floor</div>
+            <p class="exercise-description">Bruce Lee's favorite core exercise for ultimate abdominal strength</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-5 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Advanced</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Leg Exercises Section -->
+    <section class="exercise-section">
+      <div class="category-header">
+        <h2>Leg Exercises</h2>
+      </div>
+      <div class="exercise-grid">
+        <a href="pistol-squat.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Bodyweight</span>
+          <img src="https://crossfit-cestio.com/wp-content/uploads/2024/07/pistolille.jpg" alt="Pistol Squat">
+          <div class="exercise-info">
+            <h3>Pistol Squat</h3>
+            <div class="equipment-tag">No Equipment</div>
+            <p class="exercise-description">Single-leg squat that builds incredible leg strength and balance</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-5 Sets</span>
               <span><i class="fas fa-level-up-alt"></i> Advanced</span>
             </div>
             <div class="exercise-difficulty">
@@ -451,7 +1055,98 @@
           </div>
         </a>
 
-        <!-- More Lower Body Cards -->
+        <a href="bulgarian-split-squat.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Bodyweight</span>
+          <img src="https://www.healthdigest.com/img/gallery/when-you-do-bulgarian-split-squats-every-day-this-is-what-happens-to-your-body/the-bulgarian-split-squat-vs-the-traditional-back-squat-1739180241.jpg" alt="Bulgarian Split Squat">
+          <div class="exercise-info">
+            <h3>Bulgarian Split Squat</h3>
+            <div class="equipment-tag">Elevated Surface</div>
+            <p class="exercise-description">Single-leg variation that targets quads, glutes, and improves balance</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-4 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="jump-squat.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Plyometric</span>
+          <img src="https://hips.hearstapps.com/hmg-prod/images/squat-jump-1585155002.jpg" alt="Jump Squat">
+          <div class="exercise-info">
+            <h3>Jump Squat</h3>
+            <div class="equipment-tag">No Equipment</div>
+            <p class="exercise-description">Explosive lower body exercise that builds power and athleticism</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> 3-5 Sets</span>
+              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Skill Exercises Section -->
+    <section class="exercise-section">
+      <div class="category-header">
+        <h2>Skill Exercises</h2>
+      </div>
+      <div class="exercise-grid">
+        <a href="handstand.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Balance</span>
+          <img src="https://images.squarespace-cdn.com/content/v1/52e3481ee4b0ce534c3c4ac8/c127e19c-5acd-418a-af94-e4e3e928cfa9/jenni+handstand.png" alt="Handstand">
+          <div class="exercise-info">
+            <h3>Handstand</h3>
+            <div class="equipment-tag">Wall/Floor</div>
+            <p class="exercise-description">Fundamental gymnastics skill that builds shoulder strength and body control</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> Practice Daily</span>
+              <span><i class="fas fa-level-up-alt"></i> Intermediate</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="front-lever.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Advanced</span>
+          <img src="https://i.ytimg.com/vi/vXef4preKY4/maxresdefault.jpg" alt="Front Lever">
+          <div class="exercise-info">
+            <h3>Front Lever</h3>
+            <div class="equipment-tag">Pull-Up Bar</div>
+            <p class="exercise-description">Impressive straight-arm strength hold that targets the entire back and core</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> Practice 3-5x/week</span>
+              <span><i class="fas fa-level-up-alt"></i> Advanced</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="planche.html" style="text-decoration: none;" class="exercise-card">
+          <span class="exercise-badge">Elite</span>
+          <img src="https://cdn.sanity.io/images/aa8d3hr0/production/dd5436206f57dcf6200ee3e724a3fdb8bf166532-1280x720.jpg?w=1600&q=50" alt="Planche">
+          <div class="exercise-info">
+            <h3>Planche</h3>
+            <div class="equipment-tag">Parallel Bars/Floor</div>
+            <p class="exercise-description">The ultimate calisthenics skill requiring tremendous upper body strength</p>
+            <div class="exercise-meta">
+              <span><i class="fas fa-dumbbell"></i> Practice 3-5x/week</span>
+              <span><i class="fas fa-level-up-alt"></i> Elite</span>
+            </div>
+            <div class="exercise-difficulty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -485,6 +1180,98 @@
         document.querySelector('.warmup-banner').style.display = 'flex';
       }
     });
+        // Auth System
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+  
+  function handleAuth(isLogin) {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    if(isLogin) {
+      const user = users.find(u => u.email === email && u.password === password);
+      if(user) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        alert('Login successful!');
+      } else {
+        alert('Invalid credentials!');
+      }
+    } else {
+      const newUser = { email, password, programs: [] };
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+      alert('Registration successful!');
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    // Hamburger menu toggle
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Close mobile menu on click outside
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('active');
+      }
+    });
+  });
+  // Modal handling
+  const modal = document.getElementById('authModal');
+  const loginBtn = document.getElementById('loginBtn');
+  const signupBtn = document.getElementById('signupBtn');
+  const closeBtn = document.querySelector('.close');
+  const formSwitch = document.querySelectorAll('#formSwitch span');
+
+  // Show modal
+  function showModal(isLogin) {
+    modal.style.display = 'block';
+    document.getElementById('formSwitch').children[isLogin ? 1 : 0].classList.add('switch-active');
+    document.getElementById('formSwitch').children[isLogin ? 0 : 1].classList.remove('switch-active');
+  }
+
+  // Event listeners
+  loginBtn.addEventListener('click', () => showModal(true));
+  signupBtn.addEventListener('click', () => showModal(false));
+  
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  // Form switch
+  formSwitch.forEach(span => {
+    span.addEventListener('click', () => {
+      formSwitch.forEach(s => s.classList.remove('switch-active'));
+      span.classList.add('switch-active');
+    });
+  });
+
+  // Auth form submission
+  document.getElementById('authForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const isLogin = document.querySelector('#formSwitch .switch-active').textContent === 'Login';
+    handleAuth(isLogin);
+    modal.style.display = 'none';
+  });
   </script>
 </body>
 </html>

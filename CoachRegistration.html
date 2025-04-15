@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PowerFit - Coach Registration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #00ff88;
+      --secondary-color: #00cc66;
+      --background-color: #1a1a1a;
+      --card-background: #2d2d2d;
+      --text-color: #ffffff;
+      --section-spacing: 4rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Navigation styles from other pages */
+    .navbar {
+      background-color: rgba(34, 34, 34, 0.95);
+      padding: 1rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      transform: translateZ(0);
+    }
+
+    .nav-links {
+      contain: content;
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      position: relative;
+      z-index: 1000;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color var(--transition-speed);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--card-background);
+      min-width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 100000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      transform: translateY(10px);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .dropdown-content a:hover {
+      background: var(--primary-color);
+      color: var(--background-color);
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .auth-button {
+      background: none;
+      border: 2px solid var(--primary-color);
+      color: var(--text-color);
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .auth-button:hover {
+      background: var(--primary-color);
+      color: var(--background-color);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1001;
+    }
+
+    .modal-content {
+      position: relative;
+      background: var(--card-background);
+      margin: 15% auto;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: var(--text-color);
+    }
+
+    #formSwitch {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      justify-content: center;
+    }
+
+    .switch-active {
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #authForm input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      background: #333;
+      border: none;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .logo span {
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    .hamburger {
+      display: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 4rem;
+        right: -100%;
+        flex-direction: column;
+        background: var(--card-background);
+        width: 100%;
+        max-width: 250px;
+        padding: 1rem;
+        transition: right var(--transition-speed);
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+
+    /* Registration Form Styles */
+    .registration-container {
+      max-width: 1200px;
+      margin: 8rem auto 4rem;
+      padding: 0 2rem;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .form-header h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .form-header p {
+      color: #cccccc;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .registration-form {
+      background: var(--card-background);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .form-section:last-child {
+      border-bottom: none;
+    }
+
+    .form-section h2 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #cccccc;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      color: var(--text-color);
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .checkbox-item:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.5rem;
+    }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .time-slot {
+      background: rgba(255,255,255,0.1);
+      padding: 0.8rem;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .time-slot:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .time-slot.selected {
+      background: var(--primary-color);
+      color: var(--background-color);
+    }
+
+    .submit-btn {
+      background: var(--primary-color);
+      color: var(--background-color);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+      width: 100%;
+      margin-top: 2rem;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      background: var(--secondary-color);
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .progress-step {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--card-background);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .progress-step.active {
+      background: var(--primary-color);
+      color: var(--background-color);
+    }
+
+    .progress-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--card-background);
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+
+    .progress-line-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: var(--primary-color);
+      transition: width 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      .registration-container {
+        margin-top: 6rem;
+        padding: 0 1rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .time-slots {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <span style="display: inline-block; animation: pulse 2s infinite">PowerFit</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" style="cursor: pointer;">Exercises ▾</a>
+          <div class="dropdown-content">
+            <a href="gym.html">Gym Workouts</a>
+            <a href="calisthenics.html">Calisthenics</a>
+          </div>
+        </li>
+        <li><a href="Coaches.html" class="active">For Coaches</a></li>
+        <li><a href="Programs.html">Programs</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <button class="auth-button" onclick="openModal('login')">Login</button>
+        <button class="auth-button" onclick="openModal('signup')">Sign Up</button>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </nav>
+  </header>
+
+  <main class="registration-container">
+    <div class="form-header">
+      <h1>Become a PowerFit Coach</h1>
+      <p>Join our community of professional trainers and help others achieve their fitness goals</p>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-line">
+        <div class="progress-line-fill" style="width: 25%"></div>
+      </div>
+      <div class="progress-step active">1</div>
+      <div class="progress-step">2</div>
+      <div class="progress-step">3</div>
+      <div class="progress-step">4</div>
+    </div>
+
+    <form class="registration-form" id="coachRegistrationForm">
+      <!-- Personal Information -->
+      <div class="form-section">
+        <h2>Personal Information</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Professional Details -->
+      <div class="form-section">
+        <h2>Professional Details</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="experience">Years of Experience</label>
+            <input type="number" id="experience" min="0" required>
+          </div>
+          <div class="form-group">
+            <label for="specialization">Primary Specialization</label>
+            <select id="specialization" required> 
+              <option value="">Select Specialization</option>
+              <option value="strength">Strength Training</option>
+              <option value="weight-loss">Weight Loss</option>
+              <option value="muscle-gain">Muscle Gain</option>
+              <option value="sports">Sports Performance</option>
+              <option value="rehabilitation">Rehabilitation</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Additional Specializations</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" value="yoga"> Yoga
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" value="hiit"> HIIT
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" value="nutrition"> Nutrition
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" value="crossfit"> CrossFit
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" value="pilates"> Pilates
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div class="form-section">
+        <h2>Certifications</h2>
+        <div class="form-group">
+          <label for="certifications">List your certifications</label>
+          <textarea id="certifications" placeholder="Enter each certification on a new line"></textarea>
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="form-section">
+        <h2>Availability</h2>
+        <div class="form-group">
+          <label>Select Available Time Slots</label>
+          <div class="time-slots">
+            <div class="time-slot">Monday 9:00 AM</div>
+            <div class="time-slot">Monday 2:00 PM</div>
+            <div class="time-slot">Tuesday 10:00 AM</div>
+            <div class="time-slot">Tuesday 4:00 PM</div>
+            <div class="time-slot">Wednesday 11:00 AM</div>
+            <div class="time-slot">Wednesday 3:00 PM</div>
+            <div class="time-slot">Thursday 9:00 AM</div>
+            <div class="time-slot">Thursday 2:00 PM</div>
+            <div class="time-slot">Friday 10:00 AM</div>
+            <div class="time-slot">Friday 4:00 PM</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Programs -->
+      <div class="form-section">
+        <h2>Training Programs</h2>
+        <div class="form-group">
+          <label for="programs">Describe your training programs</label>
+          <textarea id="programs" placeholder="Enter details about your training programs, including duration, difficulty level, and target audience"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Application</button>
+    </form>
+  </main>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div id="formSwitch">
+        <span class="switch-active" id="loginSwitch" onclick="switchForm('login')">Login</span>
+        <span id="signupSwitch" onclick="switchForm('signup')">Sign Up</span>
+      </div>
+      <form id="authForm">
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit" class="auth-button">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Time slot selection
+      const timeSlots = document.querySelectorAll('.time-slot');
+      timeSlots.forEach(slot => {
+        slot.addEventListener('click', () => {
+          slot.classList.toggle('selected');
+        });
+      });
+
+      // Form submission
+      const form = document.getElementById('coachRegistrationForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Collect form data
+        const formData = {
+          firstName: document.getElementById('firstName').value,
+          lastName: document.getElementById('lastName').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          experience: document.getElementById('experience').value,
+          specialization: document.getElementById('specialization').value,
+          additionalSpecializations: Array.from(document.querySelectorAll('.checkbox-group input:checked')).map(cb => cb.value),
+          certifications: document.getElementById('certifications').value.split('\n').filter(cert => cert.trim()),
+          selectedTimeSlots: Array.from(document.querySelectorAll('.time-slot.selected')).map(slot => slot.textContent),
+          programs: document.getElementById('programs').value
+        };
+
+        // Store in localStorage (in a real app, this would be sent to a server)
+        const coaches = JSON.parse(localStorage.getItem('coaches') || '[]');
+        coaches.push(formData);
+        localStorage.setItem('coaches', JSON.stringify(coaches));
+
+        // Show success message
+        alert('Application submitted successfully! We will review your application and get back to you soon.');
+        window.location.href = 'Coaches.html';
+      });
+    });
+
+    // Modal functionality
+    function openModal(type) {
+        const modal = document.getElementById('authModal');
+        modal.style.display = 'block';
+        switchForm(type);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('authModal');
+        modal.style.display = 'none';
+    }
+
+    function switchForm(type) {
+        const loginSwitch = document.getElementById('loginSwitch');
+        const signupSwitch = document.getElementById('signupSwitch');
+        const form = document.getElementById('authForm');
+        
+        if (type === 'login') {
+            loginSwitch.classList.add('switch-active');
+            signupSwitch.classList.remove('switch-active');
+            form.innerHTML = `
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="auth-button">Login</button>
+            `;
+        } else {
+            loginSwitch.classList.remove('switch-active');
+            signupSwitch.classList.add('switch-active');
+            form.innerHTML = `
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Confirm Password" required>
+                <button type="submit" class="auth-button">Sign Up</button>
+            `;
+        }
+    }
+
+    // Mobile menu functionality
+    function toggleMenu() {
+        const navLinks = document.querySelector('.nav-links');
+        navLinks.classList.toggle('active');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('authModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.remove('active');
+        });
+    });
+  </script>
+</body>
+</html> 
