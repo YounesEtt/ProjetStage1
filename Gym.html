@@ -64,8 +64,12 @@
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+    align-items: center;
+    justify-content: center;
   }
 
   .modal-content {
@@ -829,7 +833,7 @@
         <button id="signupBtn" class="auth-button">Sign Up</button>
       </div>
       
-      <div id="authModal" class="modal">
+      <div id="authModal" class="modal" style="display: none;">
         <div class="modal-content">
           <span class="close">&times;</span>
           <form id="authForm">

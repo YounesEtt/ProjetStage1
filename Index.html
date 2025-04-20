@@ -63,827 +63,1005 @@
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   .modal-content {
     position: relative;
     background: var(--card-background);
-    margin: 15% auto;
-    padding: 2rem;
+    padding: 2.5rem;
     width: 90%;
     max-width: 400px;
-    border-radius: 10px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(20px);
+    animation: slideUp 0.4s ease forwards;
+    margin: auto;
+  }
+
+  @keyframes slideUp {
+    to {
+      transform: translateY(0);
+    }
   }
 
   .close {
-      position: absolute;
-      right: 20px;
-      top: 10px;
-      color: #aaa;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: var(--text-color);
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
 
-    .close:hover {
-      color: var(--text-color);
-    }
+  .close:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+  }
 
-    #formSwitch {
-      display: flex;
-      gap: 1rem;
-      margin: 1rem 0;
-      justify-content: center;
-    }
+  #authForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 
-    .switch-active {
-      color: var(--primary-color);
-      cursor: pointer;
-      font-weight: bold;
-    }
+  #authForm h2 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
 
-    #authForm input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      background: #333;
-      border: none;
-      border-radius: 4px;
-      color: white;
-    }
+  #formSwitch {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    border-radius: 30px;
+  }
 
-    .logo {
-      font-size: 1.5rem;
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: 700;
+  #formSwitch span {
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .switch-active {
+    background: var(--primary-color);
+    color: var(--background-color);
+  }
+
+  #authForm input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    margin: 0.5rem 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  #authForm input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  #authForm input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  #authForm button {
+    background: var(--primary-color);
+    color: var(--background-color);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 1rem;
+  }
+
+  #authForm button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+  }
+
+  .social-login {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+  }
+
+  .social-btn:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .divider span {
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+
+  .nav-links a.active {
+    color: var(--primary-color);
+  }
+
+  .hamburger {
+    display: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 8rem 5% 4rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+      url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b') center/cover;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  /* Exercise Grid */
+  .exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+  }
+
+  .exercise-card {
+    background: var(--card-background);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .exercise-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .exercise-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .exercise-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .exercise-info {
+    padding: 1.5rem;
+  }
+
+  .exercise-info h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+  }
+
+  .exercise-info p {
+    color: #cccccc;
+    font-size: 0.9rem;
+  }
+
+  /* CTA Button */
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    background-color: var(--secondary-color);
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
     }
 
     .nav-links {
-      display: flex;
-      gap: 2rem;
-    }
-
-    .nav-links a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--primary-color);
-      transition: width 0.3s;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    .nav-links a.active {
-      color: var(--primary-color);
-    }
-
-    .hamburger {
-      display: none;
-      color: var(--text-color);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: fixed;
+      top: 4rem;
+      right: -100%;
       flex-direction: column;
-      text-align: center;
-      padding: 8rem 5% 4rem;
-      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b') center/cover;
+      background: var(--card-background);
+      width: 100%;
+      max-width: 250px;
+      padding: 1rem;
+      transition: right 0.3s;
+    }
+
+    .nav-links.active {
+      right: 0;
     }
 
     .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
+      font-size: 2.5rem;
     }
 
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin-bottom: 2rem;
-    }
-
-    /* Exercise Grid */
     .exercise-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      width: 100%;
-      max-width: 1200px;
-      margin: 2rem auto;
+      grid-template-columns: 1fr;
     }
+  }
 
-    .exercise-card {
-      background: var(--card-background);
-      border-radius: 15px;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-      position: relative;
-    }
+  /* New Features */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
 
-    .exercise-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
+  .section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
 
-    .exercise-card img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      transition: transform 0.3s;
-    }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 2rem 5%;
+  }
 
-    .exercise-card:hover img {
-      transform: scale(1.05);
-    }
+  .feature-card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+  }
 
-    .exercise-info {
-      padding: 1.5rem;
-    }
+  .feature-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
 
-    .exercise-info h3 {
-      margin-bottom: 0.5rem;
-      color: var(--primary-color);
-    }
+  .progress-tracker {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem 5%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
-    .exercise-info p {
-      color: #cccccc;
-      font-size: 0.9rem;
-    }
+  .progress-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
 
-    /* CTA Button */
-    .cta-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background-color: var(--primary-color);
-      color: var(--background-color);
-      padding: 1rem 2rem;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: transform 0.3s, background-color 0.3s;
-    }
+  .stat-card {
+    background: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
 
-    .cta-button:hover {
-      transform: translateY(-2px);
-      background-color: var(--secondary-color);
-    }
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
 
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .hamburger {
-        display: block;
-      }
+  .stat-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
 
-      .nav-links {
-        position: fixed;
-        top: 4rem;
-        right: -100%;
-        flex-direction: column;
-        background: var(--card-background);
-        width: 100%;
-        max-width: 250px;
-        padding: 1rem;
-        transition: right 0.3s;
-      }
+  .stat-card h4 {
+    margin: 0.5rem 0;
+    color: var(--text-color);
+  }
 
-      .nav-links.active {
-        right: 0;
-      }
+  .progress-container {
+    background: rgba(0, 0, 0, 0.1);
+    height: 8px;
+    border-radius: 4px;
+    margin: 1rem 0;
+    overflow: hidden;
+  }
 
-      .hero h1 {
-        font-size: 2.5rem;
-      }
+  .progress-bar {
+    background: var(--primary-color);
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
 
-      .exercise-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+  .pr-list {
+    text-align: left;
+    margin-top: 1rem;
+  }
 
-    /* New Features */
-    .section-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
+  .pr-list p {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
-    .section-header h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
+  .pr-list i {
+    color: var(--primary-color);
+    font-size: 1rem;
+  }
 
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 2rem 5%;
-    }
+  .weekly-summary {
+    margin-top: 2rem;
+  }
 
-    .feature-card {
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-    }
+  .achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
 
-    .feature-card i {
-      font-size: 2.5rem;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
+  .achievement-card {
+    background: var(--background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
 
-    .progress-tracker {
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: 15px;
-      margin: 2rem 5%;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+  .achievement-card:hover {
+    transform: translateY(-3px);
+  }
 
-    .progress-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-top: 1.5rem;
-    }
+  .achievement-card i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
 
-    .stat-card {
-      background: var(--background-color);
-      padding: 1.5rem;
-      border-radius: 12px;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
+  .achievement-card p {
+    margin: 0.5rem 0;
+    font-weight: 500;
+  }
 
-    .stat-card:hover {
-      transform: translateY(-5px);
-    }
+  .achievement-date {
+    font-size: 0.8rem;
+    color: var(--text-color);
+  }
 
-    .stat-card i {
-      font-size: 2rem;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
+  .dropdown {
+    position: relative;
+  }
 
-    .stat-card h4 {
-      margin: 0.5rem 0;
-      color: var(--text-color);
-    }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--card-background);
+    min-width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
 
-    .progress-container {
-      background: rgba(0, 0, 0, 0.1);
-      height: 8px;
-      border-radius: 4px;
-      margin: 1rem 0;
-      overflow: hidden;
-    }
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
 
-    .progress-bar {
-      background: var(--primary-color);
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
+  .dropdown-content a {
+    color: var(--text-color);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background 0.3s;
+  }
 
-    .pr-list {
-      text-align: left;
-      margin-top: 1rem;
-    }
+  .dropdown-content a:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background-color);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s;
+  }
+  
+  .loader {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--primary-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+  }
 
-    .pr-list p {
-      margin: 0.5rem 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 
-    .pr-list i {
-      color: var(--primary-color);
-      font-size: 1rem;
-    }
+  .preloader {
+    background: var(--background-color);
+  }
 
-    .weekly-summary {
-      margin-top: 2rem;
-    }
+  .stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 2rem 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s;
+  }
 
-    .achievement-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
+  .stats-container.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    .achievement-card {
-      background: var(--background-color);
-      padding: 1rem;
-      border-radius: 8px;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
+  .stat-card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    min-width: 180px;
+  }
 
-    .achievement-card:hover {
-      transform: translateY(-3px);
-    }
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 0 5%;
+  }
 
-    .achievement-card i {
-      color: var(--primary-color);
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
+  .testimonial-card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s;
+  }
 
-    .achievement-card p {
-      margin: 0.5rem 0;
-      font-weight: 500;
-    }
+  .testimonial-card.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    .achievement-date {
-      font-size: 0.8rem;
-      color: var(--text-color);
-    }
+  .testimonial-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
 
-    .dropdown {
-      position: relative;
-    }
+  .challenge-banner {
+    background: var(--background-color);
+    color: var(--primary-color);
+    margin: 4rem 5%;
+    padding: 3rem;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: var(--card-background);
-      min-width: 200px;
-      border-radius: 8px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
+  .challenge-banner:hover {
+    transform: translateY(-5px);
+  }
 
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
+  .challenge-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438') center/cover;
+    opacity: 0.05;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+  }
 
-    .dropdown-content a {
-      color: var(--text-color);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      transition: background 0.3s;
-    }
+  .challenge-banner:hover::before {
+    opacity: 0.1;
+  }
 
-    .dropdown-content a:hover {
-      background: rgba(255,255,255,0.1);
-    }
-    
-    .preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--background-color);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.5s;
-    }
-    
-    .loader {
-      width: 48px;
-      height: 48px;
-      border: 3px solid var(--primary-color);
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 1s linear infinite;
-    }
+  .challenge-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+  .challenge-text {
+    color: var(--primary-color);
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.5px;
+  }
 
-    .preloader {
-      background: var(--background-color);
-    }
+  .challenge-description {
+    color: var(--text-color);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    line-height: 1.6;
+  }
 
-    .stats-container {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      margin: 2rem 0;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: 1s;
-    }
+  .challenge-stats {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
 
-    .stats-container.animate {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .stat {
+    text-align: center;
+    background: rgba(0, 255, 136, 0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease;
+  }
 
-    .stat-card {
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      min-width: 180px;
-    }
+  .stat:hover {
+    transform: translateY(-3px);
+  }
 
-    .testimonial-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 0 5%;
-    }
+  .stat .number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
 
-    .testimonial-card {
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: 1s;
-    }
+  .stat .label {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 500;
+    color: var(--text-color);
+  }
 
-    .testimonial-card.animate {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .progress-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary-color) 65%, rgba(0, 255, 136, 0.2) 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transition: transform 0.3s ease;
+  }
 
-    .testimonial-card img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin-bottom: 1rem;
-    }
+  .progress-circle:hover {
+    transform: scale(1.05);
+  }
 
+  .progress-circle::before {
+    content: '';
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    background: var(--background-color);
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .progress-circle span {
+    position: relative;
+    z-index: 2;
+    color: var(--primary-color);
+  }
+
+  .challenge-banner .cta-button {
+    background: var(--primary-color);
+    color: var(--background-color);
+    padding: 1.2rem 2.5rem;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .challenge-banner .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: var(--secondary-color);
+    color: var(--background-color);
+  }
+
+  @media (max-width: 768px) {
     .challenge-banner {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: var(--background-color);
-      margin: 4rem 5%;
-      padding: 3rem;
-      border-radius: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .challenge-banner::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438') center/cover;
-      opacity: 0.1;
-      z-index: 0;
-    }
-
-    .challenge-content {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-    }
-
-    .challenge-text {
-      color: var(--background-color);
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .challenge-description {
-      color: var(--background-color);
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      opacity: 0.9;
+      flex-direction: column;
+      text-align: center;
+      padding: 2rem;
     }
 
     .challenge-stats {
-      display: flex;
-      gap: 3rem;
-      margin-bottom: 2rem;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
-    .stat {
-      text-align: center;
-    }
-
-    .stat .number {
-      display: block;
+    .challenge-text {
       font-size: 2rem;
-      font-weight: 700;
-      color: var(--background-color);
     }
+  }
 
-    .stat .label {
-      font-size: 1rem;
-      opacity: 0.9;
-    }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 5%;
+  }
 
-    .progress-circle {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: conic-gradient(var(--background-color) 65%, rgba(255, 255, 255, 0.2) 0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      font-weight: 700;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
+  .blog-card {
+    background: var(--card-background);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
 
-    .challenge-banner .cta-button {
-      background: var(--background-color);
-      color: var(--primary-color);
-      padding: 1rem 2rem;
-      border-radius: 30px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-    }
+  .blog-card:hover {
+    transform: translateY(-5px);
+  }
 
-    .challenge-banner .cta-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
+  .blog-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
 
-    @media (max-width: 768px) {
-      .challenge-banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 2rem;
-      }
+  .blog-content {
+    padding: 1.5rem;
+  }
 
-      .challenge-stats {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
+  .rating {
+    color: #ffd700;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
 
-      .challenge-text {
-        font-size: 2rem;
-      }
-    }
+  .logo span {
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
 
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      padding: 0 5%;
-    }
+  /* CTA Section */
+  .cta-section {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    margin: 4rem 0;
+  }
 
-    .blog-card {
-      background: var(--card-background);
-      border-radius: 15px;
-      overflow: hidden;
-      transition: transform 0.3s;
-    }
+  .cta-section .section-header {
+    color: var(--background-color);
+  }
 
-    .blog-card:hover {
-      transform: translateY(-5px);
-    }
+  .cta-section .section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
 
-    .blog-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
 
-    .blog-content {
-      padding: 1.5rem;
-    }
+  .cta-button.secondary {
+    background: transparent;
+    border: 2px solid var(--background-color);
+    color: var(--background-color);
+  }
 
-    .rating {
-      color: #ffd700;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
+  .cta-button.secondary:hover {
+    background: var(--background-color);
+    color: var(--primary-color);
+  }
 
-    .logo span {
-      display: inline-block;
-      animation: pulse 2s infinite;
-    }
+  /* Blog Section */
+  .blog {
+    padding: 4rem 2rem;
+    background: var(--background-color);
+  }
 
-    /* CTA Section */
-    .cta-section {
-      text-align: center;
-      padding: 4rem 2rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      margin: 4rem 0;
-    }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 
-    .cta-section .section-header {
-      color: var(--background-color);
-    }
+  .blog-card {
+    background: var(--card-background);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
 
-    .cta-section .section-header h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
+  .blog-card:hover {
+    transform: translateY(-5px);
+  }
 
+  .blog-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .blog-content {
+    padding: 1.5rem;
+  }
+
+  .blog-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  .blog-content p {
+    color: var(--secondary-text-color);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Features Section Enhancement */
+  .features {
+    padding: 4rem 2rem;
+    background: var(--background-color);
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .feature-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  .feature-card p {
+    color: var(--secondary-text-color);
+  }
+
+  /* Testimonials Enhancement */
+  .testimonials {
+    padding: 4rem 2rem;
+    background: var(--background-color);
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonial-card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .testimonial-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+
+  .testimonial-card p {
+    color: var(--secondary-text-color);
+    margin-bottom: 1rem;
+  }
+
+  .rating {
+    color: #ffd700;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
     .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 2rem;
+      flex-direction: column;
     }
 
-    .cta-button.secondary {
-      background: transparent;
-      border: 2px solid var(--background-color);
-      color: var(--background-color);
-    }
-
-    .cta-button.secondary:hover {
-      background: var(--background-color);
-      color: var(--primary-color);
-    }
-
-    /* Blog Section */
-    .blog {
-      padding: 4rem 2rem;
-      background: var(--background-color);
-    }
-
+    .feature-grid,
+    .testimonial-grid,
     .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
+      grid-template-columns: 1fr;
     }
 
-    .blog-card {
-      background: var(--card-background);
-      border-radius: 15px;
-      overflow: hidden;
-      transition: transform 0.3s;
+    .section-header h2 {
+      font-size: 2rem;
     }
-
-    .blog-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .blog-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .blog-content {
-      padding: 1.5rem;
-    }
-
-    .blog-content h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--text-color);
-    }
-
-    .blog-content p {
-      color: var(--secondary-text-color);
-      margin-bottom: 1.5rem;
-    }
-
-    /* Features Section Enhancement */
-    .features {
-      padding: 4rem 2rem;
-      background: var(--background-color);
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .feature-card {
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      transition: transform 0.3s;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .feature-card i {
-      font-size: 2.5rem;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
-
-    .feature-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--text-color);
-    }
-
-    .feature-card p {
-      color: var(--secondary-text-color);
-    }
-
-    /* Testimonials Enhancement */
-    .testimonials {
-      padding: 4rem 2rem;
-      background: var(--background-color);
-    }
-
-    .testimonial-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .testimonial-card {
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      transition: transform 0.3s;
-    }
-
-    .testimonial-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .testimonial-card img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin-bottom: 1rem;
-    }
-
-    .testimonial-card h4 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: var(--text-color);
-    }
-
-    .testimonial-card p {
-      color: var(--secondary-text-color);
-      margin-bottom: 1rem;
-    }
-
-    .rating {
-      color: #ffd700;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .cta-buttons {
-        flex-direction: column;
-      }
-
-      .feature-grid,
-      .testimonial-grid,
-      .blog-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .section-header h2 {
-        font-size: 2rem;
-      }
-    }
+  }
   </style>
 </head>
 <body>
@@ -914,7 +1092,7 @@
         <button id="signupBtn" class="auth-button">Sign Up</button>
       </div>
       
-      <div id="authModal" class="modal">
+      <div id="authModal" class="modal" style="display: none;">
         <div class="modal-content">
           <span class="close">&times;</span>
           <form id="authForm">
@@ -925,7 +1103,21 @@
             </div>
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
-            <button type="submit" class="cta-button">Get Started</button>
+            <button type="submit">Get Started</button>
+            <div class="divider">
+              <span>or continue with</span>
+            </div>
+            <div class="social-login">
+              <a href="#" class="social-btn">
+                <i class="fab fa-google"></i>
+              </a>
+              <a href="#" class="social-btn">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="social-btn">
+                <i class="fab fa-apple"></i>
+              </a>
+            </div>
           </form>
         </div>
       </div>
@@ -1125,7 +1317,7 @@
           <div class="stat">
             <span class="number">2,500+</span>
             <span class="label">Participants</span>
-          </div>
+        </div>
           <div class="stat">
             <span class="number">15</span>
             <span class="label">Days Left</span>
@@ -1169,18 +1361,6 @@
             <a href="#" class="cta-button">Read More</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-      <div class="section-header">
-        <h2>Ready to Start Your Fitness Journey?</h2>
-        <p>Join thousands of members who have transformed their lives with PowerFit</p>
-      </div>
-      <div class="cta-buttons">
-        <a href="#" class="cta-button">Get Started Now</a>
-        <a href="#" class="cta-button secondary">Learn More</a>
       </div>
     </section>
     

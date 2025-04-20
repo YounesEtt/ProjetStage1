@@ -114,54 +114,82 @@
     }
 
     .auth-button {
-      background: none;
-      border: 2px solid var(--primary-color);
-      color: var(--text-color);
-      padding: 0.5rem 1.5rem;
+      background: var(--primary-color);
+      border: none;
+      padding: 0.5rem 1rem;
       border-radius: 20px;
       cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 500;
-    }
-
-    .auth-button:hover {
-      background: var(--primary-color);
-      color: var(--background-color);
+      transition: transform 0.2s;
     }
 
     .modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
       z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.3s ease;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .modal-content {
       position: relative;
       background: var(--card-background);
-      margin: 15% auto;
-      padding: 2rem;
+      padding: 2.5rem;
       width: 90%;
       max-width: 400px;
-      border-radius: 10px;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(20px);
+      animation: slideUp 0.4s ease forwards;
+      margin: auto;
+    }
+
+    @keyframes slideUp {
+      to {
+        transform: translateY(0);
+      }
     }
 
     .close {
       position: absolute;
       right: 20px;
-      top: 10px;
-      color: #aaa;
-      font-size: 28px;
+      top: 15px;
+      color: var(--text-color);
+      font-size: 24px;
       font-weight: bold;
       cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.3s ease;
     }
 
     .close:hover {
-      color: var(--text-color);
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+
+    #authForm {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    #authForm h2 {
+      color: var(--primary-color);
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 700;
     }
 
     #formSwitch {
@@ -169,22 +197,108 @@
       gap: 1rem;
       margin: 1rem 0;
       justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.5rem;
+      border-radius: 30px;
+    }
+
+    #formSwitch span {
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
     }
 
     .switch-active {
-      color: var(--primary-color);
-      cursor: pointer;
-      font-weight: bold;
+      background: var(--primary-color);
+      color: var(--background-color);
     }
 
     #authForm input {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      background: #333;
+      padding: 1rem 1.2rem;
+      margin: 0.5rem 0;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    #authForm input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    #authForm input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    #authForm button {
+      background: var(--primary-color);
+      color: var(--background-color);
+      padding: 1rem 2rem;
       border: none;
-      border-radius: 4px;
-      color: white;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 1rem;
+    }
+
+    #authForm button:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+    }
+
+    .social-login {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .social-btn:hover {
+      background: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.5rem 0;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .divider span {
+      padding: 0 1rem;
     }
 
     .logo {
@@ -603,17 +717,32 @@
   </main>
 
   <!-- Auth Modal -->
-  <div id="authModal" class="modal">
+  <div id="authModal" class="modal" style="display: none;">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <div id="formSwitch">
-        <span class="switch-active" id="loginSwitch" onclick="switchForm('login')">Login</span>
-        <span id="signupSwitch" onclick="switchForm('signup')">Sign Up</span>
-      </div>
+      <span class="close">&times;</span>
       <form id="authForm">
+        <h2 id="authTitle">Login</h2>
+        <div id="formSwitch">
+          <span class="switch-active" onclick="switchForm('login')">Login</span>
+          <span onclick="switchForm('signup')">Sign Up</span>
+        </div>
         <input type="email" placeholder="Email" required>
         <input type="password" placeholder="Password" required>
-        <button type="submit" class="auth-button">Submit</button>
+        <button type="submit" id="authButton">Login</button>
+        <div class="divider">
+          <span>or continue with</span>
+        </div>
+        <div class="social-login">
+          <div class="social-btn">
+            <i class="fab fa-google"></i>
+          </div>
+          <div class="social-btn">
+            <i class="fab fa-facebook-f"></i>
+          </div>
+          <div class="social-btn">
+            <i class="fab fa-apple"></i>
+          </div>
+        </div>
       </form>
     </div>
   </div>
@@ -659,55 +788,60 @@
     });
 
     // Modal functionality
-    function openModal(type) {
-        const modal = document.getElementById('authModal');
-        modal.style.display = 'block';
-        switchForm(type);
+    const modal = document.getElementById('authModal');
+    const closeBtn = document.getElementsByClassName('close')[0];
+    const authForm = document.getElementById('authForm');
+    const authTitle = document.getElementById('authTitle');
+    const authButton = document.getElementById('authButton');
+    const formSwitch = document.getElementById('formSwitch');
+
+    // Open modal
+    function openModal() {
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
     }
 
-    function closeModal() {
-        const modal = document.getElementById('authModal');
+    // Close modal
+    closeBtn.onclick = function() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target == modal) {
         modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
     }
 
+    // Switch between login and signup
     function switchForm(type) {
-        const loginSwitch = document.getElementById('loginSwitch');
-        const signupSwitch = document.getElementById('signupSwitch');
-        const form = document.getElementById('authForm');
-        
-        if (type === 'login') {
-            loginSwitch.classList.add('switch-active');
-            signupSwitch.classList.remove('switch-active');
-            form.innerHTML = `
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit" class="auth-button">Login</button>
-            `;
-        } else {
-            loginSwitch.classList.remove('switch-active');
-            signupSwitch.classList.add('switch-active');
-            form.innerHTML = `
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Confirm Password" required>
-                <button type="submit" class="auth-button">Sign Up</button>
-            `;
-        }
+      const spans = formSwitch.getElementsByTagName('span');
+      if (type === 'login') {
+        authTitle.textContent = 'Login';
+        authButton.textContent = 'Login';
+        spans[0].classList.add('switch-active');
+        spans[1].classList.remove('switch-active');
+      } else {
+        authTitle.textContent = 'Sign Up';
+        authButton.textContent = 'Sign Up';
+        spans[0].classList.remove('switch-active');
+        spans[1].classList.add('switch-active');
+      }
+    }
+
+    // Form submission
+    authForm.onsubmit = function(e) {
+      e.preventDefault();
+      // Add your authentication logic here
+      console.log('Form submitted');
     }
 
     // Mobile menu functionality
     function toggleMenu() {
         const navLinks = document.querySelector('.nav-links');
         navLinks.classList.toggle('active');
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const modal = document.getElementById('authModal');
-        if (event.target === modal) {
-            closeModal();
-        }
     }
 
     // Close mobile menu when clicking a link
